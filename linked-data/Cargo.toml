@@ -1,0 +1,17 @@
+# SPDX-FileCopyrightText: 2026 Omnifi Foundation
+# SPDX-License-Identifier: MPL-2.0
+
+[package]
+name = "linked-data"
+description = "The Resource Description Framework data model owned by the Naamio Data Space extension host"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+oxiri.workspace = true
+oxrdf.workspace = true
+
+[lints]
+workspace = true

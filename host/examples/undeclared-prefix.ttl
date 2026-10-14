@@ -1,0 +1,7 @@
+# Valid Turtle syntax that uses a prefix it never declares, on line 7. The Turtle component
+# passes `schema:knowsLanguage` on as written; the host, which owns prefixes, refuses it.
+
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<#me> foaf:name "Alice" .
+<#me> schema:knowsLanguage "fi" .

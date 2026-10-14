@@ -1,0 +1,46 @@
+# SPDX-FileCopyrightText: 2026 Omnifi Foundation
+# SPDX-License-Identifier: MPL-2.0
+
+[package]
+name = "scripted-parser-fixture"
+description = "A parser component for the extension host's tests, whose statements are scripted rather than parsed"
+version = "0.0.0"
+edition = "2024"
+license = "MPL-2.0"
+publish = false
+
+# The fixture builds only for WebAssembly, so it is a workspace of its own rather than a
+# member of the host's.
+[workspace]
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+# Written with the Rust kit, from the `kits/rust` submodule, like any other syntax extension.
+# The kit owns the contract's bindings and the export, so the fixture holds only its
+# scenarios.
+naamio-space-kit-rdf = { path = "../kits/rust/rdf" }
+
+# The same lints as the host's workspace, which the fixture cannot inherit because it is a
+# workspace of its own.
+[lints.rust]
+unsafe_code = "forbid"
+missing_docs = "deny"
+missing_debug_implementations = "deny"
+
+[lints.clippy]
+all = { level = "deny", priority = -2 }
+pedantic = { level = "deny", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+cognitive_complexity = "deny"
+excessive_nesting = "deny"
+too_many_lines = "deny"
+too_many_arguments = "deny"
+type_complexity = "deny"
+missing_docs_in_private_items = "deny"
+expect_used = "deny"
+unwrap_used = "deny"
+panic = "deny"
+todo = "deny"
+unimplemented = "deny"

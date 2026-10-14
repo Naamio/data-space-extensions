@@ -1,0 +1,8 @@
+# Build artifacts
+target/
+
+# macOS system files
+.DS_Store
+
+# Development artifacts
+*.local.*

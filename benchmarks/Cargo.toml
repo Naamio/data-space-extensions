@@ -1,0 +1,35 @@
+# SPDX-FileCopyrightText: 2026 Omnifi Foundation
+# SPDX-License-Identifier: MPL-2.0
+
+[package]
+name = "benchmarks"
+description = "Measures passing typed statements across the component boundary against passing text"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+linked-data = { path = "../linked-data" }
+oxttl.workspace = true
+# The text path runs its component on the same runtime as the host, configured the same
+# way, so the two paths differ only in what crosses the boundary.
+tokio = { workspace = true, features = ["sync"] }
+wasmtime.workspace = true
+wasmtime-wasi.workspace = true
+
+[dev-dependencies]
+criterion.workspace = true
+# The typed path is the extension host itself, timed through its public interface by the
+# benchmark and checked against the other paths by the tests.
+host = { path = "../host" }
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "sync"] }
+
+# Criterion provides the benchmark's own `main` and command line, so Cargo's test harness,
+# which would otherwise run the file as a set of tests, is turned off.
+[[bench]]
+name = "ingestion"
+harness = false
+
+[lints]
+workspace = true

@@ -1,0 +1,7 @@
+# A profile with a string that is never closed, on line 6. The Turtle component reports the
+# error as a byte span; the host turns it into a line and a column.
+
+@prefix foaf: <http://xmlns.com/foaf/0.1/> .
+
+<#me> foaf:name "Alice ;
+	foaf:knows <#bob> .

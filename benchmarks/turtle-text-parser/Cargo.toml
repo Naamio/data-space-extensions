@@ -1,0 +1,53 @@
+# SPDX-FileCopyrightText: 2026 Omnifi Foundation
+# SPDX-License-Identifier: MPL-2.0
+
+[package]
+name = "turtle-text-parser"
+description = "The benchmark's component: the Turtle grammar, passing its statements to the host as typed values and as text"
+version = "0.0.0"
+edition = "2024"
+license = "MPL-2.0"
+publish = false
+
+# The component builds only for WebAssembly, so it is a workspace of its own rather than a
+# member of the host's.
+[workspace]
+
+[lib]
+crate-type = ["cdylib"]
+
+[dependencies]
+# The Turtle parser, from the `components/turtle-parser` submodule. Linking it brings its
+# grammar, and also its export of the contract's `parser` interface, so this one component
+# serves the typed path and the text path with the same grammar.
+turtle-parser = { path = "../../components/turtle-parser" }
+# The contract's statement types, which the grammar returns and the writer reads. The path
+# is the one `turtle-parser` itself uses, inside its own `kits/rust` submodule, because two
+# packages of the same name at different paths cannot both be in one build.
+naamio-space-kit-rdf = { path = "../../components/turtle-parser/kits/rust/rdf" }
+# Generates the guest side of the benchmark's `text-parser` world. The version and features
+# match the Rust kit's, so Cargo builds one copy and both exports share its task runtime.
+wit-bindgen = { version = "0.62.0", features = ["async-spawn"] }
+
+# The same lints as the host's workspace, which the component cannot inherit because it is
+# a workspace of its own, with one difference, explained on the bindings module.
+[lints.rust]
+unsafe_code = "deny"
+missing_docs = "deny"
+missing_debug_implementations = "deny"
+
+[lints.clippy]
+all = { level = "deny", priority = -2 }
+pedantic = { level = "deny", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+cognitive_complexity = "deny"
+excessive_nesting = "deny"
+too_many_lines = "deny"
+too_many_arguments = "deny"
+type_complexity = "deny"
+missing_docs_in_private_items = "deny"
+expect_used = "deny"
+unwrap_used = "deny"
+panic = "deny"
+todo = "deny"
+unimplemented = "deny"

@@ -1,0 +1,12 @@
+[submodule "specifications/wasi"]
+	path = specifications/wasi
+	url = git@github.com:Naamio/data-space-wasi.git
+[submodule "components/turtle-parser"]
+	path = components/turtle-parser
+	url = git@github.com:Naamio/data-space-turtle-parser.git
+[submodule "kits/rust"]
+	path = kits/rust
+	url = git@github.com:Naamio/data-space-kit-rust.git
+[submodule "kits/javascript"]
+	path = kits/javascript
+	url = git@github.com:Naamio/data-space-kit-javascript.git

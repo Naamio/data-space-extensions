@@ -1,0 +1,28 @@
+# SPDX-FileCopyrightText: 2026 Omnifi Foundation
+# SPDX-License-Identifier: MPL-2.0
+
+[package]
+name = "host"
+description = "The Naamio Data Space extension host, which runs WebAssembly components on WASI 0.3"
+version.workspace = true
+edition.workspace = true
+license.workspace = true
+publish.workspace = true
+
+[dependencies]
+linked-data = { path = "../linked-data" }
+tokio = { workspace = true, features = ["sync"] }
+wasmtime.workspace = true
+wasmtime-wasi.workspace = true
+
+[dev-dependencies]
+tokio = { workspace = true, features = ["macros", "rt-multi-thread", "sync"] }
+
+# Parses a document through a parser component and prints the quads or the failure, for
+# demonstrating the host. Its unit tests run with the rest of the crate's.
+[[example]]
+name = "parse"
+test = true
+
+[lints]
+workspace = true

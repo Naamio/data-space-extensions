@@ -1,0 +1,13 @@
+# Lint thresholds. Which lints run, and how loudly, is declared in each
+# crate's manifest through [workspace.lints]; the numbers those lints compare
+# against are here.
+cognitive-complexity-threshold = 10
+excessive-nesting-threshold = 4
+too-many-arguments-threshold = 5
+too-many-lines-threshold = 60
+type-complexity-threshold = 200
+single-char-binding-names-threshold = 0
+
+# Product names written as they are spelled and not as code. The default list
+# already covers the common cases; a name is added here as prose reaches it.
+doc-valid-idents = ["..", "TriG", "QuickJS"]

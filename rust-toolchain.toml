@@ -1,0 +1,7 @@
+# One pin for the whole workspace, and the same pin as the components this host
+# runs, so the host and its components are built with one compiler. The
+# WebAssembly target builds the fixture component the host's tests run.
+[toolchain]
+channel = "nightly-2026-10-10"
+components = ["rustfmt", "clippy"]
+targets = ["wasm32-wasip3"]

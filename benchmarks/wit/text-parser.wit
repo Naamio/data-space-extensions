@@ -1,0 +1,21 @@
+// SPDX-FileCopyrightText: 2026 Omnifi Foundation
+// SPDX-License-Identifier: MPL-2.0
+
+/// The benchmark's alternative to the `linked-data:rdf` parser: a component that passes the
+/// statements a document makes to the host as text instead of as typed values.
+///
+/// It exists only to be measured against the contract. It is not part of the contract and
+/// no host should implement it.
+package naamio:benchmarks@0.0.0;
+
+interface text-parser {
+  /// Reads a Turtle document and writes the statements it makes, as written, as Turtle:
+  /// prefix and base directives, then one triple per line, with prefixed names, relative
+  /// references and blank node labels left for the host to interpret. The future resolves
+  /// once the document has been read, or with a description of the first error.
+  parse: async func(document: stream<u8>) -> tuple<stream<u8>, future<result<_, string>>>;
+}
+
+world text-parser-component {
+  export text-parser;
+}

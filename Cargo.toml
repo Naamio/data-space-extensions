@@ -1,0 +1,70 @@
+# SPDX-FileCopyrightText: 2026 Omnifi Foundation
+# SPDX-License-Identifier: MPL-2.0
+
+[workspace]
+members = ["benchmarks", "host", "linked-data"]
+# Components build for WebAssembly, so each is a package of its own: the fixture and the
+# benchmark's component in this repository, and the first-party parsers included as
+# submodules. The Rust kit is a workspace of its own, included as a submodule for the
+# fixture and the kit's examples.
+exclude = [
+	"benchmarks/turtle-text-parser",
+	"components/turtle-parser",
+	"kits/rust",
+	"scripted-parser-fixture",
+]
+resolver = "3"
+
+[workspace.package]
+version = "0.0.0"
+edition = "2024"
+license = "MPL-2.0"
+publish = false
+
+[workspace.dependencies]
+# The RDF data model: IRI and language tag validation, blank nodes, and an indexed dataset
+# of quads, from the Oxigraph project. The `rdf-12` feature adds triple terms and the base
+# direction of literals.
+oxrdf = { version = "0.3.4", features = ["rdf-12"] }
+# Parsers for Turtle and N-Triples, from the same Oxigraph release as oxrdf, so parsed
+# triples need no conversion. Only the benchmarks use it: it parses the Turtle the text
+# path's component writes, and it is the native baseline the component paths are measured
+# against. The `rdf-12` feature matches oxrdf's.
+oxttl = { version = "0.2.4", features = ["rdf-12"] }
+# The benchmarks' timing harness. It warms up before measuring, takes repeated samples,
+# discards outliers, and reports each timing with a confidence interval and the change since
+# the previous run, so a difference between two paths can be told apart from noise.
+criterion = "0.8.2"
+# IRI parsing and resolution against a base, following RFC 3987 and RFC 3986. oxrdf already
+# depends on this crate at this version, so naming it directly adds no new code.
+oxiri = "0.2.11"
+# The asynchronous runtime Wasmtime's WASI 0.3 support is built on. The host uses its
+# one-shot channel to learn when a component's work has finished.
+tokio = "1.53.2"
+# The WebAssembly runtime. `component-model-async` adds the streams and futures of WASI
+# 0.3, which Wasmtime describes as incomplete; the extension host accepts that risk.
+wasmtime = { version = "49.0.2", features = ["component-model", "component-model-async"] }
+# Wasmtime's implementation of the WASI 0.3 interfaces that a component built with the
+# Rust standard library imports. The host links them and grants nothing through them.
+wasmtime-wasi = { version = "49.0.2", features = ["p3"] }
+
+[workspace.lints.rust]
+unsafe_code = "forbid"
+missing_docs = "deny"
+missing_debug_implementations = "deny"
+
+[workspace.lints.clippy]
+all = { level = "deny", priority = -2 }
+pedantic = { level = "deny", priority = -1 }
+nursery = { level = "warn", priority = -1 }
+cognitive_complexity = "deny"
+excessive_nesting = "deny"
+too_many_lines = "deny"
+too_many_arguments = "deny"
+type_complexity = "deny"
+missing_docs_in_private_items = "deny"
+expect_used = "deny"
+unwrap_used = "deny"
+panic = "deny"
+todo = "deny"
+unimplemented = "deny"
